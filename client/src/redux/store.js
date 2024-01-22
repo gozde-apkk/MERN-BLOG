@@ -3,9 +3,10 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from "redux-persist";
 import persistStore from 'redux-persist/es/persistStore';
-
+import themeReducer from './theme/themeSlice';
  const rootReducer = combineReducers({
     user : userReducer,
+    theme : themeReducer
  });
 
  const persistConfig = {
@@ -18,6 +19,7 @@ import persistStore from 'redux-persist/es/persistStore';
 export const store = configureStore({
     reducer: {
        user : persistedReducer,
+       theme : themeReducer
        
     },
     middleware : (getDefaultMiddleware) => 
