@@ -1,13 +1,35 @@
-import { Link , useLocation} from "react-router-dom";
+import { Link , useLocation, useNavigate} from "react-router-dom";
 import { Navbar, TextInput, Button, Dropdown, Avatar } from "flowbite-react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa";
-import {useSelector} from 'react-redux';
+import { FaMoon, FaSun } from "react-icons/fa";
+import {useDispatch, useSelector} from 'react-redux';
+import { toggleTheme } from "../redux/theme/themeSlice.js";
+import { signoutSuccess } from "../redux/user/userSlice.js";
 const Header = () => {
  
    const {user} = useSelector((state) => state.user);
+   const {theme} = useSelector((state) => state.theme)
     const currentUser = user.currentUser; 
   const path = useLocation().pathname;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+        navigate("/sign-in")
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <Navbar className="border-b-2">
       <Link
@@ -31,8 +53,8 @@ const Header = () => {
         <AiOutlineSearch />
       </Button>
       <div className="flex gap-2 md:order-2">
-        <Button className="w-12 h-10 hidden sm:inline" color="gray" pill>
-          <FaMoon />
+        <Button className="w-12 h-10 hidden sm:inline" color="gray" pill onClick={() => dispatch(toggleTheme())}>
+         { theme === 'light' ?   <FaSun/> : <FaMoon/>}
         </Button>
         {currentUser?
       
@@ -53,7 +75,7 @@ const Header = () => {
                 Profile
               </Dropdown.Item>
               <Dropdown.Divider/>
-              <Dropdown.Item>Sign Out</Dropdown.Item>
+              <Dropdown.Item onClick={handleSignout}>Sign Out</Dropdown.Item>
             </Link>
 
         </Dropdown>) : (<Link to="/sign-in">
