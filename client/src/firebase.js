@@ -15,7 +15,31 @@ const firebaseConfig = {
   appId: "1:796862695408:web:a29581564c19c5cf32ff35",
   measurementId: "G-PYCNJR62EC"
 };
-
+{
+  "firebase"; {
+    "functions";{
+      "predeploy"; [
+        "npm --prefix \"$RESOURCE_DIR\" run lint",
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+    "hosting"; {
+      "public"; "public",
+      "ignore"; [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    }
+    "firestore"; {
+      "rules"; "firestore.rules",
+      "indexes"; "firestore.indexes.json"
+    }
+    "storage"; {
+      "rules"; "storage.rules"
+    }
+  }
+}
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
