@@ -56,10 +56,7 @@ const Header = () => {
         <Button className="w-12 h-10 hidden sm:inline" color="gray" pill onClick={() => dispatch(toggleTheme())}>
          { theme === 'light' ?   <FaSun/> : <FaMoon/>}
         </Button>
-        {currentUser?
-      
-     ( 
-      
+        {currentUser? (       
       <Dropdown 
            arrowIcon={false}
            inline
