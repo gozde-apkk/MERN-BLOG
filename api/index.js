@@ -7,13 +7,23 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.route.js';
 import postRouter from './routes/post.route.js'
-
+import cors from 'cors';
 
 
 dotenv.config();
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors({origin : "http://localhost:5173", credentials: true}));
+
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 const PORT = 3000;
 mongoose.connect(process.env.MONGO             
 ).then(() => {
