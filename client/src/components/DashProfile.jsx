@@ -21,14 +21,14 @@ import {
 } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function DashProfile() {
   const { user } = useSelector((state) => state.user);
    const currentUser = user.currentUser;
    const loading = user.loading;
    const error = user.error;
-  console.log(currentUser);
+   const navigate = useNavigate();
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -78,15 +78,15 @@ export default function DashProfile() {
 
         setImageFileUploadProgress(progress.toFixed(0));
       },
-      (error) => {
+      (err) => {
         setImageFileUploadError(
-          'Could not upload image (File must be less than 2MB)'
+          `Could not upload image: ${err.message}`
         );
         setImageFileUploadProgress(null);
         setImageFile(null);
         setImageFileUrl(null);
         setImageFileUploading(false);
-      },
+    },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL);
@@ -147,6 +147,8 @@ export default function DashProfile() {
         dispatch(deleteUserFailure(data.message));
       } else {
         dispatch(deleteUserSuccess(data));
+        navigate("sign-in")
+  
       }
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
@@ -295,7 +297,7 @@ export default function DashProfile() {
           </h3>
           <div className='flex justify-center gap-4'>
             <Button color='failure' onClick={handleDeleteUser}>
-              Yes, I'm sure
+            Yes, I&apos;m sure
             </Button>
             <Button color='gray' onClick={() => setShowModal(false)}>
               No, cancel
