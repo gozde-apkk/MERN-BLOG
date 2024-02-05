@@ -11,6 +11,7 @@ export default function DashPosts() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState('');
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -30,6 +31,7 @@ export default function DashPosts() {
       fetchPosts();
     }
   }, [currentUser._id]);
+
 
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
