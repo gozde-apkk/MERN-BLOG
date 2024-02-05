@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate , useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function UpdatePost() {
   const [file, setFile] = useState(null);
@@ -19,7 +20,9 @@ export default function UpdatePost() {
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
-
+   const {user } = useSelector((state) => state.user); 
+   console.log( "updatepost", user.currentUser);
+   const currentUser = user.currentUser;
   const navigate = useNavigate();
   const {postId} = useParams();
   
@@ -84,12 +87,13 @@ export default function UpdatePost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/post/create', {
-        method: 'POST',
+      const res = await fetch(`api/post/updatepost/${formData._id}/${currentUser._id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+      
       });
       const data = await res.json();
       if (!res.ok) {
