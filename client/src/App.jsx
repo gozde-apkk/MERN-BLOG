@@ -7,8 +7,13 @@ import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import Header from "./components/Header";
 import FooterCom from "./components/FooterCom";
+import PrivateRouter from "./components/PrivateRouter";
+import CreatePost from "./components/CreatePost";
+import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute";
+import UpdatePost from "./pages/UpdatePost";
 
 function App() {
+
   return (
     <BrowserRouter>
       <Header />
@@ -17,7 +22,13 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
+        <Route  element={<PrivateRouter/>}>
         <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+        <Route element={<OnlyAdminPrivateRoute/>}>
+        <Route path="/create-post" element={<CreatePost/>} />
+        <Route path="/update-post/:postId" element={<UpdatePost/>} />
+        </Route>
         <Route path="/projects" element={<Projects />} />
       </Routes>
       <FooterCom/>
