@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.route.js';
 import postRouter from './routes/post.route.js'
+import commentRoutes from './routes/comment.route.js'
 import cors from 'cors';
 
 
@@ -32,6 +33,7 @@ mongoose.connect(process.env.MONGO
 app.use("/api/user" , userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRouter);
+app.use("/api/comment", commentRoutes);
 
 
 app.listen(PORT , () => {
