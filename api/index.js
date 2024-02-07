@@ -9,6 +9,7 @@ import authRoutes from './routes/auth.route.js';
 import postRouter from './routes/post.route.js'
 import commentRoutes from './routes/comment.route.js'
 import cors from 'cors';
+import path from 'path';  
 
 
 dotenv.config();
@@ -17,7 +18,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cors({origin : "http://localhost:5173", credentials: true}));
 
-
+const __directory = path.resolve();
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.header('Access-Control-Allow-Credentials', true);
@@ -35,7 +36,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRoutes);
 
-
+app.use(express.static(path.join(__dirname, '/client/dist')));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, 'client','dist','index.html'));
+})
 app.listen(PORT , () => {
     console.log(`server running on port ${PORT}`);
 });
