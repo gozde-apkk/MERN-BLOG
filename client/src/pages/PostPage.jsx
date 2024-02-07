@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import CallToAction from "../components/CallToAction";
 import CommentSection from "../components/CommentSection";
+import PostCard from "../components/PostCard";
 
 const PostPage = () => {
   const {postSlug} = useParams();
@@ -45,6 +46,7 @@ const PostPage = () => {
           const data = await res.json();
           if (res.ok) {
             setRecentPosts(data.posts);
+            console.log(error);
           }
         };
         fetchRecentPosts();
